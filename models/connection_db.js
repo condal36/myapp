@@ -1,5 +1,7 @@
-// DataBase
-const config = require('../config/development_config');
+//測試用DataBase
+//const config = require('../config/development_config');
+//正式
+const config = require('../config/config');
 const mysqlt = require("mysql");
 
 const connection = mysqlt.createConnection({
@@ -14,7 +16,7 @@ connection.connect(err => {
     //console.log('host:',config.mysql.host,'user:',config.mysql.user,'password:',config.mysql.password,'database:',config.mysql.database,'connecting error');
     console.log('connecting error',err.message);
   } else {
-    console.log('connecting success');
+    console.log('DB',config.mysql.database,' connecting success');
   }
 });
 
