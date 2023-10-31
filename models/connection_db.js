@@ -4,20 +4,24 @@
 const config = require('../config/config');
 const mysqlt = require("mysql");
 
-const connection = mysqlt.createConnection({
+const con = mysqlt.createPool({
   host: config.mysql.host,
   user: config.mysql.user,
   password: config.mysql.password,
   database: config.mysql.database
 });
 
-connection.connect(err => {
-  if (err) {
-    //console.log('host:',config.mysql.host,'user:',config.mysql.user,'password:',config.mysql.password,'database:',config.mysql.database,'connecting error');
+con.on("connection", connection => {
+  console.log("Database connected!");
+
+  connection.on("error", err => {
     console.log('connecting error',err.message);
-  } else {
-    console.log('DB',config.mysql.database,' connecting success');
-  }
+    });
+
+    connection.on("close", err => {
+      console.log('DB',config.mysql.database,' connecting success');
+    });
 });
 
-module.exports = connection;
+
+module.exports = con;
